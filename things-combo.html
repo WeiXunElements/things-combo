@@ -1,151 +1,190 @@
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../iron-input/iron-input.html">
 
 <!--
-An element providing a solution to no problem in particular.
+things-combo. items로 받은 데이터들을 콤보박스로 출력하고 선택한 값을 필드에 표시하는 컴퍼넌트
 
 Example:
-
-    <things-combo></things-combo>
-
-Example:
-
-    <things-combo>
-      <h2>Hello things-combo</h2>
-    </things-combo>
+  
+      <things-combo 
+        items="[{name: 'item1', descrption: 'First Item'}, 
+                {name: 'itme2', description: 'Second Item'}]" 
+        label-path="description" 
+        value-path="name">
+      </things-combo>
 
 @demo demo/index.html
-@hero hero.svg
 -->
 
 <dom-module id="things-combo">
-  <template>
-    <style>
-      :host {
-        display: block;
-        box-sizing: border-box;
-      }
+  <style>
+    .dropdown-content {
+      background-color: white;
+    }
+    .paper-font-caption {
+      margin-bottom: 0px;
+    }
+  </style>
 
-      .author img {
-        display: block;
-        float: left;
-        margin-right: 5px;
-        max-height: 100px;
-        max-width: 100px;
-      }
-    </style>
+  <template> 
+    <p class="paper-font-caption">[[label]]</p>
+    <input is="iron-input" value="[[display]]" on-tap="spreadContents" disabled>
+    <input is="iron-input" name="[[name]]" bind-value="[[value]]" hidden>
 
-    <h1>&lt;things-combo&gt;</h1>
-    <content></content>
-    <p class="author">
-      <img src$="{{author.image}}">
-      Cheers,<br/>
-      <span class="name">{{author.name}}</span>
-    </p>
+    <iron-icon icon="icons:list" on-tap="spreadContents"></iron-icon>
+    
+    <iron-dropdown id="dropdownList" horizontal-align="left" vertical-align="top">
+      <div class="dropdown-content">
+        <template is="dom-repeat" items="[[items]]">
+          <paper-item on-tap="_valueChanged" value="[[item.name]]">[[item.description]]&nbsp;<span>([[item.name]])</span></paper-item>
+        </template>
+      </div>
+    </iron-dropdown>
   </template>
 
-  <script>
-    Polymer({
-      is: 'things-combo',
+  <script type="text/javascript">
+    (function() {
+      Polymer({
+        is: "things-combo",
 
-      properties: {
-        /**
-         * `fancy` indicates that the element should don a monocle and tophat,
-         * while checking its pocket watch.
-         */
-        fancy: Boolean,
+        properties: {
+          /**
+           * Drop down list에 포함될 items array
+           */
+          items: {
+            type: Array,
+            notify: true,
+            value: []
+          },
 
-        /**
-         * Describes the author of the element, but is really just an excuse to
-         * show off JSDoc annotations.
-         *
-         * @type {{name: string, image: string}}
-         */
-        author: {
-          type: Object,
-          // Use `value` to provide a default value for a property, by setting it
-          // on your element's prototype.
-          //
-          // If you provide a function, as we do here, Polymer will call that
-          // _per element instance_.
-          //
-          // We do that to ensure that each element gets its own copy of the
-          // value, rather than having it shared across all instances (via the
-          // prototype).
-          value: function() {
-            return {
-              name:  'Dimitri Glazkov',
-              image: 'http://addyosmani.com/blog/wp-content/uploads/2013/04/unicorn.jpg',
-            };
+          /**
+           * String type으로 items를 전달 받기 위한 property
+           */
+          itemsStr: {
+            type: String,
+            observer: 'itemsStrChanged'
+          },
+          /**
+           * input name
+           */
+          name:{
+            type:String
+          },
+          /**
+           * item에서 display 값을 추출하기 위한 labelPath
+           */
+          labelPath: {
+            type: String,
+            value: 'description'
+          },
+
+          /**
+           * item에서 value 값을 추출하기 위한 valuePath
+           */
+          valuePath: {
+            type: String,
+            value: 'name'
+          },
+          
+          /**
+           * 화면에 출력 할 값
+           */
+          display: {
+            type: String,
+            notify:true,
+            readonly:true,
+            computed:'_findDisplay(items,value)'
+          },
+
+          /**
+           * 호출에 사용 될 실제 값
+           */
+          value: {
+            type: String,
+            notify:true,
+            observer: '_valueChangeHandler'
+          },
+
+          /**
+           * input field 상단에 표시되는 label
+           */
+          label: {
+            type: String,
           }
         },
-      },
 
-      // Element Lifecycle
+        /**
+         * String type으로 전달 받은 itemsStr을 json 형식으로 parsing한 후 items에 초기화
+         */
+        itemsStrChanged: function(itemsStr) {
+          if(itemsStr && itemsStr.length >= 2) {
+            try {
+              this.items = JSON.parse(itemsStr);
+            } catch(e) {
+              console.log(e);
+            }
+          }
+        },
 
-      ready: function() {
-        // `ready` is called after all elements have been configured, but
-        // propagates bottom-up. This element's children are ready, but parents
-        // are not.
-        //
-        // This is the point where you should make modifications to the DOM (when
-        // necessary), or kick off any processes the element wants to perform.
-      },
+        /**
+         * value가 변경될 시 발생하는 event handler
+         */
+        _valueChangeHandler: function(e) {
+          if(this.valuePath) {
+            if(this.value) {
+              this.display = this._findDisplay(this.items, this.value);
+              this.fire('things-combo-value-changed', { value : this.value, item : { name : this.value, description : this.display } });
+            } else {
+              this.fire('things-combo-value-changed', { value : '', item : {} });
+            }
+          }
+        },
 
-      attached: function() {
-        // `attached` fires once the element and its parents have been inserted
-        // into a document.
-        //
-        // This is a good place to perform any work related to your element's
-        // visual state or active behavior (measuring sizes, beginning animations,
-        // loading resources, etc).
-      },
+        /**
+         * value가 변경 되었을 시 value를 통해 display 값을 얻고 detail form field에 표시하기 위한 display 초기화
+         */
+        _findDisplay: function(items, value) {
+          var display = '';
+          var founds = items.filter(function(item) {
+            return item.name == value;
+          });
 
-      detached: function() {
-        // The analog to `attached`, `detached` fires when the element has been
-        // removed from a document.
-        //
-        // Use this to clean up anything you did in `attached`.
-      },
+          if(founds && founds.length > 0) {
+            display = founds[0].description;
+          }
 
-      // Element Behavior
+          return display;
+        },
 
-      /**
-       * Sometimes it's just nice to say hi.
-       *
-       * @param {string} greeting A positive greeting.
-       * @return {string} The full greeting.
-       */
-      sayHello: function(greeting) {
-        var response = greeting || 'Hello World!';
-        return 'things-combo says, ' + response;
-      },
+        /**
+         * Spreading Drop down list
+         */
+        spreadContents: function() {
+          this.$['dropdownList'].toggle();
+          this.fire('things-combo-opened', 'open');
+        },
 
-      /**
-       * The `things-combo-lasers` event is fired whenever `fireLasers` is called.
-       *
-       * @event things-combo-lasers
-       * @detail {{sound: String}}
-       */
+        /**
+         * input field의 값이 변경 될 시 drop down list를 닫고 value(검색에 필요한 실제 값)와 display(UI에 나타나는 값)를 초기화
+         */
+        _valueChanged: function(e) {
+          this.$['dropdownList'].toggle();
+          this.value = e.model.item[this.valuePath];
+          this.display = e.model.item[this.labelPath];
+        },
 
-      /**
-       * Attempt to destroy this element's enemies with a beam of light!
-       *
-       * Or, at least, dispatch an event in the vain hope that someone else will
-       * do the zapping.
-       */
-      fireLasers: function() {
-        this.fire('things-combo-lasers', {sound: 'Pew pew!'});
-      }
-    });
+        /**
+         * 값을 리셋
+         */
+        clearValue: function(e) {
+          this.display = '';
+          this.value = '';
+        }
+
+      })
+    })();
   </script>
 </dom-module>
