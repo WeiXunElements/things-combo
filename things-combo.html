@@ -20,23 +20,32 @@ Example:
 -->
 
 <dom-module id="things-combo">
+<dom-module id="things-combo">
   <style>
     .dropdown-content {
       background-color: white;
     }
-    .paper-font-caption {
-      margin-bottom: 0px;
+    label{
+      @apply(--things-label);
+    }
+    input{
+      @apply(--things-input);
+      width:calc(65% - 37px);
+    }
+    iron-icon{
+      @apply(--things-picker-button);
+      background:url(/images/icon-resource-select.png) 50% -46px no-repeat var(--paper-blue-grey-300);
     }
   </style>
 
   <template> 
-    <p class="paper-font-caption">[[label]]</p>
+    <label>[[label]]</label>
     <input is="iron-input" value="[[display]]" on-tap="spreadContents" disabled>
     <input is="iron-input" name="[[name]]" bind-value="[[value]]" hidden>
 
-    <iron-icon icon="icons:list" on-tap="spreadContents"></iron-icon>
+    <iron-icon on-tap="spreadContents"></iron-icon>
     
-    <iron-dropdown id="dropdownList" horizontal-align="left" vertical-align="top">
+    <iron-dropdown id="dropdownList" horizontal-align="right" vertical-align="top">
       <div class="dropdown-content">
         <template is="dom-repeat" items="[[items]]">
           <paper-item on-tap="_valueChanged" value="[[item.name]]">[[item.description]]&nbsp;<span>([[item.name]])</span></paper-item>
