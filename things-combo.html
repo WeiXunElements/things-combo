@@ -81,7 +81,8 @@ Example:
           items: {
             type: Array,
             notify: true,
-            value: []
+            value: [],
+            observer: '_itemsChanged'
           },
 
           /**
@@ -137,8 +138,26 @@ Example:
            */
           label: {
             type: String,
+          },
+
+          /**
+           * emptyObj를 포함 시킬지 여부를 결정하는 attribute
+           */
+          involveEmpty: {
+            type: Boolean,
+            value: true
           }
         },
+
+        /**
+         * involveEmpty가 true 일때 items의 첫번째 값에ㅓ 빈 오브젝트를 삽입한다.
+         */
+        _itemsChanged: function() {
+          if(involveEmpty) {
+            var emptyObj = {};
+            this.items.unshift(emptyObj);
+          }
+        }
 
         /**
          * String type으로 전달 받은 itemsStr을 json 형식으로 parsing한 후 items에 초기화
@@ -193,11 +212,16 @@ Example:
 
         /**
          * input field의 값이 변경 될 시 drop down list를 닫고 value(검색에 필요한 실제 값)와 display(UI에 나타나는 값)를 초기화
+         * emptyObj를 선택했을 때에는 clearValue를 호출
          */
         _valueChanged: function(e) {
           this.$['dropdownList'].toggle();
-          this.value = e.model.item[this.valuePath];
-          this.display = e.model.item[this.labelPath];
+          if(e.model.item) {
+            this.value = e.model.item[this.valuePath];
+            this.display = e.model.item[this.labelPath];
+          } else {
+            this.clearValue();
+          }
         },
 
         /**
