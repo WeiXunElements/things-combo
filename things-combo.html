@@ -143,17 +143,17 @@ Example:
           /**
            * emptyObj를 포함 시킬지 여부를 결정하는 attribute
            */
-          involveEmpty: {
+          exceptEmpty: {
             type: Boolean,
-            value: true
+            value: false
           }
         },
 
         /**
-         * involveEmpty가 true 일때 items의 첫번째 값에ㅓ 빈 오브젝트를 삽입한다.
+         * exceptEmpty false 일때 items의 첫번째 값에 빈 오브젝트를 삽입한다.
          */
         _itemsChanged: function() {
-          if(this.involveEmpty) {
+          if(!this.exceptEmpty) {
             var emptyObj = {};
             this.items.unshift(emptyObj);
           }
