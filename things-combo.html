@@ -20,7 +20,6 @@ Example:
 -->
 
 <dom-module id="things-combo">
-<dom-module id="things-combo">
   <style>
     .dropdown-content {
       background-color: white;
@@ -179,7 +178,12 @@ Example:
           if(this.valuePath) {
             if(this.value) {
               this.display = this._findDisplay(this.items, this.value);
-              this.fire('things-combo-value-changed', { value : this.value, item : { name : this.value, description : this.display } });
+              var item = this._findItem(this.items, this.value);
+              if(item && item.length > 0) {
+                item = item[0];
+              }
+
+              this.fire('things-combo-value-changed', { value : this.value, item : item });
             } else {
               this.fire('things-combo-value-changed', { value : '', item : {} });
             }
@@ -200,6 +204,15 @@ Example:
           }
 
           return display;
+        },
+
+        /**
+         * value가 변경 되었을 시 value를 통해 display 값을 얻고 detail form field에 표시하기 위한 display 초기화
+         */
+        _findItem: function(items, value) {
+          return items.filter(function(item) {
+            return item.name == value;
+          });
         },
 
         /**
