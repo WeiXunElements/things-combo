@@ -179,10 +179,6 @@ Example:
             if(this.value) {
               this.display = this._findDisplay(this.items, this.value);
               var item = this._findItem(this.items, this.value);
-              if(item && item.length > 0) {
-                item = item[0];
-              }
-
               this.fire('things-combo-value-changed', { value : this.value, item : item });
             } else {
               this.fire('things-combo-value-changed', { value : '', item : {} });
@@ -195,12 +191,14 @@ Example:
          */
         _findDisplay: function(items, value) {
           var display = '';
+          var valuePath = this.valuePath;
+
           var founds = items.filter(function(item) {
-            return item.name == value;
+            return item[valuePath] == value;
           });
 
           if(founds && founds.length > 0) {
-            display = founds[0].description;
+            display = founds[0][this.labelPath];
           }
 
           return display;
@@ -210,8 +208,9 @@ Example:
          * value가 변경 되었을 시 value를 통해 display 값을 얻고 detail form field에 표시하기 위한 display 초기화
          */
         _findItem: function(items, value) {
-          return items.filter(function(item) {
-            return item.name == value;
+          var valuePath = this.valuePath;
+          return items.find(function(item) {
+            return item[valuePath] == value;
           });
         },
 
@@ -229,6 +228,7 @@ Example:
          */
         _valueChanged: function(e) {
           this.$['dropdownList'].toggle();
+          
           if(e.model.item) {
             this.value = e.model.item[this.valuePath];
             this.display = e.model.item[this.labelPath];
