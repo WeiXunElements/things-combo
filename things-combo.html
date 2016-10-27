@@ -54,7 +54,7 @@ Example:
 
   <template> 
     <label>[[label]]</label>
-    <input is="iron-input" value="[[display]]" on-tap="spreadContents" on-focusin="spreadContents" disabled on-focusout ="closeContents" tabindex$="[[tabindex]]">
+    <input is="iron-input" value="[[display]]" on-tap="spreadContents" on-focusin="spreadContents" on-focusout ="closeContents" tabindex$="[[tabIndex]]">
     <input is="iron-input" name="[[name]]" bind-value="[[value]]" hidden>
 
     <iron-icon on-tap="spreadContents"></iron-icon>
@@ -149,7 +149,7 @@ Example:
           /**
            * tabindex
            */
-          tabindex: {
+          tabIndex: {
             type: String
           }
         },
