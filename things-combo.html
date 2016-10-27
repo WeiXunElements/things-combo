@@ -54,7 +54,7 @@ Example:
 
   <template> 
     <label>[[label]]</label>
-    <input is="iron-input" value="[[display]]" on-tap="spreadContents" disabled>
+    <input is="iron-input" value="[[display]]" on-tap="spreadContents" on-focusin="spreadContents" disabled on-focusout ="closeContents" tabindex$="[[tabindex]]">
     <input is="iron-input" name="[[name]]" bind-value="[[value]]" hidden>
 
     <iron-icon on-tap="spreadContents"></iron-icon>
@@ -145,6 +145,12 @@ Example:
           exceptEmpty: {
             type: Boolean,
             value: false
+          },
+          /**
+           * tabindex
+           */
+          tabindex: {
+            type: String
           }
         },
 
@@ -218,10 +224,16 @@ Example:
          * Spreading Drop down list
          */
         spreadContents: function() {
-          this.$['dropdownList'].toggle();
-          this.fire('things-combo-opened', 'open');
+          this.$['dropdownList'].open();
+          this.fire('things-combo-opened', {'open':this.$['dropdownList'].opened});
         },
-
+        /**
+         * Spreading Drop down list
+         */
+        closeContents: function() {
+          this.$['dropdownList'].close();
+          this.fire('things-combo-opened', {'open':this.$['dropdownList'].opened});
+        },
         /**
          * input field의 값이 변경 될 시 drop down list를 닫고 value(검색에 필요한 실제 값)와 display(UI에 나타나는 값)를 초기화
          * emptyObj를 선택했을 때에는 clearValue를 호출
