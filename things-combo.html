@@ -54,12 +54,12 @@ Example:
 
   <template> 
     <label>[[label]]</label>
-    <input is="iron-input" value="[[display]]" on-tap="spreadContents" on-focusin="spreadContents" on-focusout ="closeContents" tabindex$="[[tabIndex]]">
+    <input is="iron-input" value="[[display]]" on-tap="spreadContents" on-input="spreadContents" tabindex$="[[tabIndex]]">
     <input is="iron-input" name="[[name]]" bind-value="[[value]]" hidden>
 
     <iron-icon on-tap="spreadContents"></iron-icon>
     
-    <iron-dropdown id="dropdownList" horizontal-align="left" vertical-align="top">
+    <iron-dropdown id="dropdownList" horizontal-align="left" vertical-align="top" always-on-top>
       <div class="dropdown-content">
         <template is="dom-repeat" items="[[items]]">
           <paper-item on-tap="_valueChanged" value="[[item.name]]">[[item.description]]&nbsp;<span>[[item.name]]</span></paper-item>
