@@ -54,8 +54,20 @@ Example:
 
   <template> 
     <label>[[label]]</label>
-    <input is="iron-input" value="[[display]]" on-tap="spreadContents" on-input="spreadContents" tabindex$="[[tabIndex]]" readonly>
-    <input is="iron-input" name="[[name]]" bind-value="[[value]]" hidden>
+    <input is="iron-input"
+            value="[[display]]"
+            on-tap="spreadContents"
+            on-input="spreadContents"
+            tabindex$="[[tabIndex]]"
+            readonly>
+    <input is="iron-input" 
+            name="[[name]]" 
+            bind-value="[[value]]" 
+            hidden
+            id="input" 
+            error-message$="[[errorMessage]]"
+            auto-validate$="[[autoValidate]]" 
+            required$="[[required]]">
 
     <iron-icon on-tap="spreadContents"></iron-icon>
     
@@ -153,6 +165,35 @@ Example:
            */
           tabIndex: {
             type: String
+          },
+          /**
+           * input field에 반드시 값이 포함되어야 함을 결정 합니다.
+           */
+          required: {
+            type: Boolean,
+            value: false
+          },
+          /**
+           * 자동 validation check 활성화 여부
+           */
+          autoValidate: {
+            type: Boolean,
+            value: false
+          },
+          /**
+           * validate 함수를 통해 return 되는 값으로 초기화 하는 변수
+           */
+          isValid: {
+            type: Boolean,
+            notify: true,
+            value: true
+          },
+          /**
+           * validation check를 통해 isValid의 값이 false일때 화면에 나타나는 errorMessage
+           */
+          errorMessage: {
+            type: String,
+            value: 'Invalid input'
           }
         },
 
@@ -192,6 +233,7 @@ Example:
               this.fire('things-combo-value-changed', { value : '', item : {} });
             }
           }
+          this.validate();
         },
 
         /**
@@ -259,6 +301,12 @@ Example:
         clearValue: function(e) {
           this.display = '';
           this.value = '';
+        },
+        /**
+         * 수동 validation check function
+         */
+        validate: function() {
+          this.isValid = this.$.input.validate();
         }
       })
     })();
