@@ -81,234 +81,255 @@ Example:
   </template>
 
   <script type="text/javascript">
-    (function() {
-      Polymer({
-        is: "things-combo",
+    Polymer({
+      is: "things-combo",
 
-        properties: {
-          /**
-           * Drop down list에 포함될 items array
-           */
-          items: {
-            type: Array,
-            notify: true,
-            value: [],
-            observer: '_itemsChanged'
-          },
+      properties: {
+        /**
+         * Drop down list에 포함될 items array
+         */
+        items: {
+          type: Array,
+          notify: true,
+          value: [],
+          observer: '_itemsChanged'
+        },
 
-          /**
-           * String type으로 items를 전달 받기 위한 property
-           */
-          itemsStr: {
-            type: String,
-            observer: 'itemsStrChanged'
-          },
+        /**
+         * String type으로 items를 전달 받기 위한 property
+         */
+        itemsStr: {
+          type: String,
+          observer: 'itemsStrChanged'
+        },
 
-          /**
-           * input name
-           */
-          name:{
-            type:String
-          },
-          
-          /**
-           * item에서 display 값을 추출하기 위한 labelPath
-           */
-          labelPath: {
-            type: String,
-            value: 'description'
-          },
+        /**
+         * input name
+         */
+        name: {
+          type: String
+        },
+        
+        /**
+         * item에서 display 값을 추출하기 위한 labelPath
+         */
+        labelPath: {
+          type: String,
+          value: 'description'
+        },
 
-          /**
-           * item에서 value 값을 추출하기 위한 valuePath
-           */
-          valuePath: {
-            type: String,
-            value: 'name'
-          },
-          
-          /**
-           * 화면에 출력 할 값
-           */
-          display: {
-            type: String,
-            notify:true,
-            readonly:true,
-            computed:'_findDisplay(items,value)'
-          },
+        /**
+         * item에서 value 값을 추출하기 위한 valuePath
+         */
+        valuePath: {
+          type: String,
+          value: 'name'
+        },
+        
+        /**
+         * 화면에 출력 할 값
+         */
+        display: {
+          type: String,
+          notify: true,
+          readonly: true,
+          computed:'_findDisplay(items,value)'
+        },
 
-          /**
-           * 호출에 사용 될 실제 값
-           */
-          value: {
-            type: String,
-            notify:true,
-            observer: '_valueChangeHandler'
-          },
+        /**
+         * 호출에 사용 될 실제 값
+         */
+        value: {
+          type: String,
+          notify: true,
+          observer: '_valueChangeHandler'
+        },
 
-          /**
-           * input field 상단에 표시되는 label
-           */
-          label: {
-            type: String,
-          },
+        /**
+         * input field 상단에 표시되는 label
+         */
+        label: {
+          type: String,
+        },
 
-          /**
-           * emptyObj를 포함 시킬지 여부를 결정하는 attribute
-           */
-          exceptEmpty: {
-            type: Boolean,
-            value: false
-          },
-          /**
-           * tabindex
-           */
-          tabIndex: {
-            type: String
-          },
-          /**
-           * input field에 반드시 값이 포함되어야 함을 결정 합니다.
-           */
-          required: {
-            type: Boolean,
-            value: false
-          },
-          /**
-           * 자동 validation check 활성화 여부
-           */
-          autoValidate: {
-            type: Boolean,
-            value: false
-          },
-          /**
-           * validate 함수를 통해 return 되는 값으로 초기화 하는 변수
-           */
-          isValid: {
-            type: Boolean,
-            notify: true,
-            value: true
-          },
-          /**
-           * validation check를 통해 isValid의 값이 false일때 화면에 나타나는 errorMessage
-           */
-          errorMessage: {
-            type: String,
-            value: 'Invalid input'
+        /**
+         * emptyObj를 포함 시킬지 여부를 결정하는 attribute
+         */
+        exceptEmpty: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * tabindex
+         */
+        tabIndex: {
+          type: String
+        },
+
+        /**
+         * input field에 반드시 값이 포함되어야 함을 결정 합니다.
+         */
+        required: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * 자동 validation check 활성화 여부
+         */
+        autoValidate: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * validate 함수를 통해 return 되는 값으로 초기화 하는 변수
+         */
+        isValid: {
+          type: Boolean,
+          notify: true,
+          value: true
+        },
+
+        /**
+         * validation check를 통해 isValid의 값이 false일때 화면에 나타나는 errorMessage
+         */
+        errorMessage: {
+          type: String,
+          value: function() {
+            return Things.DataGlobal.t('text.invalid_input');
           }
-        },
-
-        /**
-         * exceptEmpty false 일때 items의 첫번째 값에 빈 오브젝트를 삽입한다.
-         */
-        _itemsChanged: function() {
-          if(!this.exceptEmpty) {
-            var emptyObj = {};
-            this.items.unshift(emptyObj);
-          }
-        },
-
-        /**
-         * String type으로 전달 받은 itemsStr을 json 형식으로 parsing한 후 items에 초기화
-         */
-        itemsStrChanged: function(itemsStr) {
-          if(itemsStr && itemsStr.length >= 2) {
-            try {
-              this.items = JSON.parse(itemsStr);
-            } catch(e) {
-              console.log(e);
-            }
-          }
-        },
-
-        /**
-         * value가 변경될 시 발생하는 event handler
-         */
-        _valueChangeHandler: function(e) {
-          if(this.valuePath) {
-            if(this.value) {
-              this.display = this._findDisplay(this.items, this.value);
-              var item = this._findItem(this.items, this.value);
-              this.fire('things-combo-value-changed', { value : this.value, item : item });
-            } else {
-              this.fire('things-combo-value-changed', { value : '', item : {} });
-            }
-          }
-          this.validate();
-        },
-
-        /**
-         * value가 변경 되었을 시 value를 통해 display 값을 얻고 detail form field에 표시하기 위한 display 초기화
-         */
-        _findDisplay: function(items, value) {
-          var display = '';
-          var valuePath = this.valuePath;
-
-          var founds = items.filter(function(item) {
-            return item[valuePath] == value;
-          });
-
-          if(founds && founds.length > 0) {
-            display = founds[0][this.labelPath];
-          }
-
-          return display;
-        },
-
-        /**
-         * value가 변경 되었을 시 value를 통해 display 값을 얻고 detail form field에 표시하기 위한 display 초기화
-         */
-        _findItem: function(items, value) {
-          var valuePath = this.valuePath;
-          return items.find(function(item) {
-            return item[valuePath] == value;
-          });
-        },
-
-        /**
-         * Spreading Drop down list
-         */
-        spreadContents: function() {
-          this.$['dropdownList'].open();
-          this.fire('things-combo-opened', {'open':this.$['dropdownList'].opened});
-        },
-
-        /**
-         * Spreading Drop down list
-         */
-        closeContents: function() {
-          this.$['dropdownList'].close();
-          this.fire('things-combo-opened', {'open':this.$['dropdownList'].opened});
-        },
-
-        /**
-         * input field의 값이 변경 될 시 drop down list를 닫고 value(검색에 필요한 실제 값)와 display(UI에 나타나는 값)를 초기화
-         * emptyObj를 선택했을 때에는 clearValue를 호출
-         */
-        _valueChanged: function(e) {
-          this.$['dropdownList'].toggle();
-          
-          if(e.model.item) {
-            this.value = e.model.item[this.valuePath];
-            this.display = e.model.item[this.labelPath];
-          } else {
-            this.clearValue();
-          }
-        },
-
-        /**
-         * 값을 리셋
-         */
-        clearValue: function(e) {
-          this.display = '';
-          this.value = '';
-        },
-        /**
-         * 수동 validation check function
-         */
-        validate: function() {
-          this.isValid = this.$.input.validate();
         }
-      })
-    })();
+      },
+
+      /**
+       * exceptEmpty false 일때 items의 첫번째 값에 빈 오브젝트를 삽입한다.
+       */
+      _itemsChanged: function() {
+        if(!this.exceptEmpty) {
+          this.items.unshift({});
+        }
+      },
+
+      /**
+       * String type으로 전달 받은 itemsStr을 json 형식으로 parsing한 후 items에 초기화
+       *
+       * @param {String} itemsStr
+       */
+      itemsStrChanged: function(itemsStr) {
+        if(itemsStr && itemsStr.length >= 2) {
+          try {
+            this.items = JSON.parse(itemsStr);
+          } catch(e) {
+            console.log(e);
+          }
+        }
+      },
+
+      /**
+       * value가 변경될 시 발생하는 event handler
+       *
+       * @param {Object} e
+       */
+      _valueChangeHandler: function(e) {
+        if(this.valuePath) {
+          if(this.value) {
+            this.display = this._findDisplay(this.items, this.value);
+            var item = this._findItem(this.items, this.value);
+            this.fire('things-combo-value-changed', { value : this.value, item : item });
+          } else {
+            this.fire('things-combo-value-changed', { value : '', item : {} });
+          }
+        }
+        
+        this.validate();
+      },
+
+      /**
+       * value가 변경 되었을 시 value를 통해 display 값을 얻고 detail form field에 표시하기 위한 display 초기화
+       *
+       * @param {Array} items
+       * @param {String} value
+       */
+      _findDisplay: function(items, value) {
+        var display = '';
+        var valuePath = this.valuePath;
+
+        var founds = items.filter(function(item) {
+          return item[valuePath] == value;
+        });
+
+        if(founds && founds.length > 0) {
+          display = founds[0][this.labelPath];
+        }
+
+        // value가 items에 존재하지 않는다면 display를 value로 설정 
+        return display ? display : value;
+      },
+
+      /**
+       * value가 변경 되었을 시 value를 통해 display 값을 얻고 detail form field에 표시하기 위한 display 초기화
+       *
+       * @param {Array} items
+       * @param {String} value
+       */
+      _findItem: function(items, value) {
+        var valuePath = this.valuePath;
+        return items.find(function(item) {
+          return item[valuePath] == value;
+        });
+      },
+
+      /**
+       * Spreading Drop down list
+       */
+      spreadContents: function() {
+        this.$['dropdownList'].open();
+        this.fire('things-combo-opened', {open: this.$['dropdownList'].opened});
+      },
+
+      /**
+       * Spreading Drop down list
+       */
+      closeContents: function() {
+        this.$['dropdownList'].close();
+        this.fire('things-combo-opened', {open: this.$['dropdownList'].opened});
+      },
+
+      /**
+       * input field의 값이 변경 될 시 drop down list를 닫고 value(검색에 필요한 실제 값)와 display(UI에 나타나는 값)를 초기화
+       * emptyObj를 선택했을 때에는 clearValue를 호출
+       *
+       * @param {Object} e
+       */
+      _valueChanged: function(e) {
+        this.$['dropdownList'].toggle();
+        
+        if(e.model.item) {
+          this.value = e.model.item[this.valuePath];
+          this.display = e.model.item[this.labelPath];
+        } else {
+          this.clearValue();
+        }
+      },
+
+      /**
+       * 값을 리셋
+       *
+       * @param {Object} e
+       */
+      clearValue: function(e) {
+        this.display = '';
+        this.value = '';
+      },
+
+      /**
+       * 수동 validation check function
+       */
+      validate: function() {
+        this.isValid = this.$.input.validate();
+      }
+    });
   </script>
 </dom-module>
