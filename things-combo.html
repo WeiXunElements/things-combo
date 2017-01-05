@@ -54,12 +54,14 @@ Example:
 
   <template> 
     <label>[[label]]</label>
+
     <input is="iron-input"
             value="[[display]]"
             on-tap="spreadContents"
             on-input="spreadContents"
             tabindex$="[[tabIndex]]"
             readonly>
+
     <input is="iron-input" 
             name="[[name]]" 
             bind-value="[[value]]" 
@@ -261,7 +263,9 @@ Example:
         });
 
         if(founds && founds.length > 0) {
-          display = founds[0][this.labelPath];
+          var found = founds[0];
+          display = found[this.labelPath];
+          if(!display && found.name) display = found.name;
         }
 
         // value가 items에 존재하지 않는다면 display를 value로 설정 
