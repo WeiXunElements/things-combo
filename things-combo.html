@@ -29,6 +29,8 @@ Example:
     }
     input{
       @apply(--things-input);
+    }
+    .input-size{
       width:calc(65% - 37px);
     }
     iron-icon{
@@ -56,6 +58,7 @@ Example:
     <label>[[label]]</label>
 
     <input is="iron-input"
+            class$="{{_computeClass(readonly)}}"
             value="[[display]]"
             on-tap="spreadContents"
             on-input="spreadContents"
@@ -63,6 +66,7 @@ Example:
             readonly>
 
     <input is="iron-input" 
+            class$="{{_computeClass(readonly)}}"
             name="[[name]]" 
             bind-value="[[value]]" 
             hidden
@@ -71,7 +75,7 @@ Example:
             auto-validate$="[[autoValidate]]" 
             required$="[[required]]">
 
-    <iron-icon on-tap="spreadContents"></iron-icon>
+    <iron-icon hidden$="[[readonly]]" on-tap="spreadContents"></iron-icon>
     
     <iron-dropdown id="dropdownList" horizontal-align="left" vertical-align="top" always-on-top>
       <div class="dropdown-content">
@@ -176,7 +180,13 @@ Example:
           type: Boolean,
           value: false
         },
-
+        /**
+         * readonly or not
+         */
+        readonly: {
+          type: Boolean,
+          value: false
+        },
         /**
          * 자동 validation check 활성화 여부
          */
@@ -205,6 +215,12 @@ Example:
         }
       },
 
+      _computeClass: function(readonly){
+        if(readonly){
+          return ''
+        }
+        return 'input-size'
+      },
       /**
        * exceptEmpty false 일때 items의 첫번째 값에 빈 오브젝트를 삽입한다.
        */
@@ -289,6 +305,9 @@ Example:
        * Spreading Drop down list
        */
       spreadContents: function() {
+        if(this.readonly){
+          return;
+        }
         this.$['dropdownList'].open();
         this.fire('things-combo-opened', {open: this.$['dropdownList'].opened});
       },
