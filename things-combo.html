@@ -8,11 +8,11 @@
 things-combo. items로 받은 데이터들을 콤보박스로 출력하고 선택한 값을 필드에 표시하는 컴퍼넌트
 
 Example:
-  
-      <things-combo 
-        items="[{name: 'item1', descrption: 'First Item'}, 
-                {name: 'itme2', description: 'Second Item'}]" 
-        label-path="description" 
+
+      <things-combo
+        items="[{name: 'item1', descrption: 'First Item'},
+                {name: 'itme2', description: 'Second Item'}]"
+        label-path="description"
         value-path="name">
       </things-combo>
 
@@ -54,7 +54,7 @@ Example:
     }
   </style>
 
-  <template> 
+  <template>
     <label>[[label]]</label>
 
     <input is="iron-input"
@@ -65,18 +65,18 @@ Example:
             tabindex$="[[tabIndex]]"
             readonly>
 
-    <input is="iron-input" 
+    <input is="iron-input"
             class$="{{_computeClass(readonly)}}"
-            name="[[name]]" 
-            bind-value="[[value]]" 
+            name="[[name]]"
+            bind-value="[[value]]"
             hidden
-            id="input" 
+            id="input"
             error-message$="[[errorMessage]]"
-            auto-validate$="[[autoValidate]]" 
+            auto-validate$="[[autoValidate]]"
             required$="[[required]]">
 
     <iron-icon hidden$="[[readonly]]" on-tap="spreadContents"></iron-icon>
-    
+
     <iron-dropdown id="dropdownList" horizontal-align="left" vertical-align="top" always-on-top>
       <div class="dropdown-content">
         <template is="dom-repeat" items="[[items]]">
@@ -115,7 +115,7 @@ Example:
         name: {
           type: String
         },
-        
+
         /**
          * item에서 display 값을 추출하기 위한 labelPath
          */
@@ -131,7 +131,7 @@ Example:
           type: String,
           value: 'name'
         },
-        
+
         /**
          * 화면에 출력 할 값
          */
@@ -260,7 +260,7 @@ Example:
             this.fire('things-combo-value-changed', { value : '', item : {} });
           }
         }
-        
+
         this.validate();
       },
 
@@ -284,7 +284,7 @@ Example:
           if(!display && found.name) display = found.name;
         }
 
-        // value가 items에 존재하지 않는다면 display를 value로 설정 
+        // value가 items에 존재하지 않는다면 display를 value로 설정
         return display ? display : value;
       },
 
@@ -328,7 +328,7 @@ Example:
        */
       _valueChanged: function(e) {
         this.$['dropdownList'].toggle();
-        
+
         if(e.model.item) {
           this.value = e.model.item[this.valuePath];
           this.display = e.model.item[this.labelPath];

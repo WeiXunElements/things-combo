@@ -17,6 +17,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <link rel="import" href="../../paper-input/paper-input.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../things-i18n-msg/things-i18n-msg.html">
+
 
     <link rel="import" href="../things-combo.html">
   </head>
@@ -26,8 +28,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <template>
           <template is="dom-bind">
             <paper-input value="{{value}}" label="Value"></paper-input>
-            <paper-input value="{{display}}" label="Display"></paper-input>
-
+            <paper-input value="[[display]]" label="Display"></paper-input>
+            <things-i18n-msg></things-i18n-msg>
             <things-combo
               id="combo"
               label="Label"
@@ -36,8 +38,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               value-path="name"
               value = "{{value}}"
               display="{{display}}">
-            </things-combo> 
-            
+            </things-combo>
           </template>
         </template>
       </demo-snippet>
