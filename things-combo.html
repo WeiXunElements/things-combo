@@ -93,6 +93,7 @@ Example:
       properties: {
         /**
          * Drop down list에 포함될 items array
+         * @type: Array
          */
         items: {
           type: Array,
@@ -103,6 +104,7 @@ Example:
 
         /**
          * String type으로 items를 전달 받기 위한 property
+         * @type: String
          */
         itemsStr: {
           type: String,
@@ -111,6 +113,7 @@ Example:
 
         /**
          * input name
+         * @type: String
          */
         name: {
           type: String
@@ -118,6 +121,7 @@ Example:
 
         /**
          * item에서 display 값을 추출하기 위한 labelPath
+         * @type: String
          */
         labelPath: {
           type: String,
@@ -126,6 +130,7 @@ Example:
 
         /**
          * item에서 value 값을 추출하기 위한 valuePath
+         * @type: String
          */
         valuePath: {
           type: String,
@@ -134,6 +139,7 @@ Example:
 
         /**
          * 화면에 출력 할 값
+         * @type: String
          */
         display: {
           type: String,
@@ -144,6 +150,7 @@ Example:
 
         /**
          * 호출에 사용 될 실제 값
+         * @type: String
          */
         value: {
           type: String,
@@ -152,7 +159,8 @@ Example:
         },
 
         /**
-         * input field 상단에 표시되는 label
+         * input field 옆단에 표시되는 label
+         * @type: String
          */
         label: {
           type: String,
@@ -160,6 +168,7 @@ Example:
 
         /**
          * emptyObj를 포함 시킬지 여부를 결정하는 attribute
+         * @type: Boolean
          */
         exceptEmpty: {
           type: Boolean,
@@ -168,6 +177,7 @@ Example:
 
         /**
          * tabindex
+         * @type: String
          */
         tabIndex: {
           type: String
@@ -175,6 +185,7 @@ Example:
 
         /**
          * input field에 반드시 값이 포함되어야 함을 결정 합니다.
+         * @type: Boolean
          */
         required: {
           type: Boolean,
@@ -182,6 +193,7 @@ Example:
         },
         /**
          * readonly or not
+         * @type: Boolean
          */
         readonly: {
           type: Boolean,
@@ -189,6 +201,7 @@ Example:
         },
         /**
          * 자동 validation check 활성화 여부
+         * @type: Boolean
          */
         autoValidate: {
           type: Boolean,
@@ -197,6 +210,7 @@ Example:
 
         /**
          * validate 함수를 통해 return 되는 값으로 초기화 하는 변수
+         * @type: Boolean
          */
         isValid: {
           type: Boolean,
@@ -206,6 +220,7 @@ Example:
 
         /**
          * validation check를 통해 isValid의 값이 false일때 화면에 나타나는 errorMessage
+         * @type: String
          */
         errorMessage: {
           type: String,
@@ -233,7 +248,7 @@ Example:
       /**
        * String type으로 전달 받은 itemsStr을 json 형식으로 parsing한 후 items에 초기화
        *
-       * @param {String} itemsStr
+       * @param {String} itemsStr #### : 전달하는 itemsStr
        */
       itemsStrChanged: function(itemsStr) {
         if(itemsStr && itemsStr.length >= 2) {
@@ -267,8 +282,8 @@ Example:
       /**
        * value가 변경 되었을 시 value를 통해 display 값을 얻고 detail form field에 표시하기 위한 display 초기화
        *
-       * @param {Array} items
-       * @param {String} value
+       * @param {Array} items #### : item들이 있는 배열
+       * @param {String} value #### : value값
        */
       _findDisplay: function(items, value) {
         var display = '';
@@ -291,8 +306,8 @@ Example:
       /**
        * value가 변경 되었을 시 value를 통해 display 값을 얻고 detail form field에 표시하기 위한 display 초기화
        *
-       * @param {Array} items
-       * @param {String} value
+       * @param {Array} items #### : item들이 있는 배열
+       * @param {String} value #### : value값
        */
       _findItem: function(items, value) {
         var valuePath = this.valuePath;
@@ -303,6 +318,7 @@ Example:
 
       /**
        * Spreading Drop down list
+       * 리스트에서 아래로 펼치기
        */
       spreadContents: function() {
         if(this.readonly){
@@ -314,6 +330,7 @@ Example:
 
       /**
        * Spreading Drop down list
+       * 리스트에서 아래로 펼치기
        */
       closeContents: function() {
         this.$['dropdownList'].close();

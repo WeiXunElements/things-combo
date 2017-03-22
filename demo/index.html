@@ -23,7 +23,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <link rel="import" href="../things-combo.html">
   </head>
   <body unresolved>
-    <p class="paper-font-subhead">Things Combo</p>
+    <p class="paper-font-subhead">Things Combo<br><br>
+    Value에서 값을 넣으면, Display과Label에서 적용되고, Label에서도 값을 체크할 수 있다.
+    </p>
       <demo-snippet class="centered-demo">
         <template>
           <template is="dom-bind">
@@ -33,7 +35,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <things-combo
               id="combo"
               label="Label"
-              items-str='[{"name": "item1","description": "First Item"}, {"name": "item2","description": "Second Item"}]'
+              items-str='[{"name": "item1","description": "First Item"},
+                          {"name": "item2","description": "Second Item"}]'
               label-path="description"
               value-path="name"
               value = "{{value}}"

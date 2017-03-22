@@ -1,7 +1,17 @@
 # things-combo
 
-An element providing a starting point for your own reusable Polymer elements.
+things-combo.items로 받은 데이터들을 콤보박스로 출력하고 선택한 값을 필드에 표시하는 컴퍼넌트
 
+Example:
+
+```html
+      <things-combo
+        items="[{name: 'item1', descrption: 'First Item'},
+                {name: 'itme2', description: 'Second Item'}]"
+        label-path="description"
+        value-path="name">
+      </things-combo>
+```
 
 ## Dependencies
 
@@ -21,11 +31,11 @@ If you wish to work on your element in isolation, we recommend that you use
 [Polyserve](https://github.com/PolymerLabs/polyserve) to keep your element's
 bower dependencies in line. You can install it via:
 
-    npm install -g polyserve
+    npm install -g polymer-cli
 
 And you can run it via:
 
-    polyserve
+    polymer serve
 
 Once running, you can preview your element at
 `http://localhost:8080/components/things-combo/`, where `things-combo` is the name of the directory containing it.
