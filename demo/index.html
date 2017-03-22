@@ -18,16 +18,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../things-i18n-msg/things-i18n-msg.html">
-
-
+    <link rel="import" href="../../things-theme/things-xmes-theme.html">
     <link rel="import" href="../things-combo.html">
   </head>
   <body unresolved>
-    <p class="paper-font-subhead">Things Combo<br><br>
-    Value에서 값을 넣으면, Display과Label에서 적용되고, Label에서도 값을 체크할 수 있다.
-    </p>
+      <h3>Things Combo</h3>
+      <h4>Value에서 값을 넣으면, Display과Label에서 적용되고, Label에서도 값을 체크할 수 있다.</h4>
       <demo-snippet class="centered-demo">
         <template>
+          <style include="things-xmes-theme"></style>
           <template is="dom-bind">
             <paper-input value="{{value}}" label="Value"></paper-input>
             <paper-input value="[[display]]" label="Display"></paper-input>

@@ -55,6 +55,14 @@ Example:
   </style>
 
   <template>
+    
+    <things-i18n-msg
+        auto
+        msgid="text.invalid_input"
+        msg="{{errorMessage}}" hidden>
+        Invalid Input
+    </things-i18n-msg>
+
     <label>[[label]]</label>
 
     <input is="iron-input"
@@ -223,10 +231,7 @@ Example:
          * @type: String
          */
         errorMessage: {
-          type: String,
-          value: function() {
-            return Things.DataGlobal.t('text.invalid_input');
-          }
+          type: String
         }
       },
 
