@@ -101,6 +101,7 @@ Example:
       properties: {
         /**
          * Drop down list에 포함될 items array
+         * ********
          * @type: Array
          */
         items: {
@@ -112,6 +113,7 @@ Example:
 
         /**
          * String type으로 items를 전달 받기 위한 property
+         * ********
          * @type: String
          */
         itemsStr: {
@@ -121,6 +123,7 @@ Example:
 
         /**
          * input name
+         * ********
          * @type: String
          */
         name: {
@@ -129,6 +132,7 @@ Example:
 
         /**
          * item에서 display 값을 추출하기 위한 labelPath
+         * ********
          * @type: String
          */
         labelPath: {
@@ -138,6 +142,7 @@ Example:
 
         /**
          * item에서 value 값을 추출하기 위한 valuePath
+         * ********
          * @type: String
          */
         valuePath: {
@@ -147,6 +152,7 @@ Example:
 
         /**
          * 화면에 출력 할 값
+         * ********
          * @type: String
          */
         display: {
@@ -158,6 +164,7 @@ Example:
 
         /**
          * 호출에 사용 될 실제 값
+         * ********
          * @type: String
          */
         value: {
@@ -168,6 +175,7 @@ Example:
 
         /**
          * input field 옆단에 표시되는 label
+         * ********
          * @type: String
          */
         label: {
@@ -176,6 +184,7 @@ Example:
 
         /**
          * emptyObj를 포함 시킬지 여부를 결정하는 attribute
+         * ********
          * @type: Boolean
          */
         exceptEmpty: {
@@ -185,6 +194,7 @@ Example:
 
         /**
          * tabindex
+         * ********
          * @type: String
          */
         tabIndex: {
@@ -192,23 +202,28 @@ Example:
         },
 
         /**
-         * input field에 반드시 값이 포함되어야 함을 결정 합니다.
+         * input field에 반드시 값이 포함되는지 여부 
+         * ********
          * @type: Boolean
          */
         required: {
           type: Boolean,
           value: false
         },
+
         /**
          * readonly or not
+         * ********
          * @type: Boolean
          */
         readonly: {
           type: Boolean,
           value: false
         },
+
         /**
          * 자동 validation check 활성화 여부
+         * ********
          * @type: Boolean
          */
         autoValidate: {
@@ -218,6 +233,7 @@ Example:
 
         /**
          * validate 함수를 통해 return 되는 값으로 초기화 하는 변수
+         * ********
          * @type: Boolean
          */
         isValid: {
@@ -228,6 +244,7 @@ Example:
 
         /**
          * validation check를 통해 isValid의 값이 false일때 화면에 나타나는 errorMessage
+         * ********
          * @type: String
          */
         errorMessage: {
@@ -235,14 +252,22 @@ Example:
         }
       },
 
-      _computeClass: function(readonly){
-        if(readonly){
-          return ''
+      /**
+       * readonly가 아닌 경우 style 지정을 위해 기본 클래스를 설정한다.
+       **********
+       * @param {Boolean} readonly
+       */
+      _computeClass: function(readonly) {
+        if(readonly) {
+          return '';
         }
-        return 'input-size'
+
+        return 'input-size';
       },
+
       /**
        * exceptEmpty false 일때 items의 첫번째 값에 빈 오브젝트를 삽입한다.
+       ***********
        */
       _itemsChanged: function() {
         if(!this.exceptEmpty) {
@@ -252,7 +277,7 @@ Example:
 
       /**
        * String type으로 전달 받은 itemsStr을 json 형식으로 parsing한 후 items에 초기화
-       *
+       ***********
        * @param {String} itemsStr #### : 전달하는 itemsStr
        */
       itemsStrChanged: function(itemsStr) {
@@ -267,7 +292,7 @@ Example:
 
       /**
        * value가 변경될 시 발생하는 event handler
-       *
+       ***********
        * @param {Object} e
        */
       _valueChangeHandler: function(e) {
@@ -286,7 +311,7 @@ Example:
 
       /**
        * value가 변경 되었을 시 value를 통해 display 값을 얻고 detail form field에 표시하기 위한 display 초기화
-       *
+       ***********
        * @param {Array} items #### : item들이 있는 배열
        * @param {String} value #### : value값
        */
@@ -310,7 +335,7 @@ Example:
 
       /**
        * value가 변경 되었을 시 value를 통해 display 값을 얻고 detail form field에 표시하기 위한 display 초기화
-       *
+       ***********
        * @param {Array} items #### : item들이 있는 배열
        * @param {String} value #### : value값
        */
@@ -324,11 +349,13 @@ Example:
       /**
        * Spreading Drop down list
        * 리스트에서 아래로 펼치기
+       ***********
        */
       spreadContents: function() {
-        if(this.readonly){
+        if(this.readonly) {
           return;
         }
+
         this.$['dropdownList'].open();
         this.fire('things-combo-opened', {open: this.$['dropdownList'].opened});
       },
@@ -336,6 +363,7 @@ Example:
       /**
        * Spreading Drop down list
        * 리스트에서 아래로 펼치기
+       ***********
        */
       closeContents: function() {
         this.$['dropdownList'].close();
@@ -345,7 +373,7 @@ Example:
       /**
        * input field의 값이 변경 될 시 drop down list를 닫고 value(검색에 필요한 실제 값)와 display(UI에 나타나는 값)를 초기화
        * emptyObj를 선택했을 때에는 clearValue를 호출
-       *
+       ***********
        * @param {Object} e
        */
       _valueChanged: function(e) {
@@ -361,7 +389,7 @@ Example:
 
       /**
        * 값을 리셋
-       *
+       ***********
        * @param {Object} e
        */
       clearValue: function(e) {
@@ -371,6 +399,7 @@ Example:
 
       /**
        * 수동 validation check function
+       ***********
        */
       validate: function() {
         this.isValid = this.$.input.validate();
