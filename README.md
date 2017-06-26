@@ -1,6 +1,6 @@
 # things-combo
 
-things-combo.items로 받은 데이터들을 콤보박스로 출력하고 선택한 값을 필드에 표시하는 컴퍼넌트
+The component that prints the data received by things-combo.items to a combo box and displays the selected value in a field.
 
 Example:
 
@@ -15,8 +15,7 @@ Example:
 
 ## Dependencies
 
-Element dependencies are managed via [Bower](http://bower.io/). You can
-install that via:
+Element dependencies are managed via [Bower](http://bower.io/). You can install that via:
 
     npm install -g bower
 
