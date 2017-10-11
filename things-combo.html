@@ -89,7 +89,7 @@ Example:
 
     <iron-icon hidden$="[[readonly]]" on-tap="spreadContents"></iron-icon>
 
-    <iron-dropdown id="dropdownList" horizontal-align="left" vertical-align="top" always-on-top>
+    <iron-dropdown id="dropdownList" horizontal-align="right" vertical-align="top" always-on-top>
       <div class="dropdown-content">
         <template is="dom-repeat" items="[[items]]">
           <paper-item on-tap="_valueChanged" value="[[item.name]]">[[item.description]]&nbsp;<span>[[item.name]]</span></paper-item>
