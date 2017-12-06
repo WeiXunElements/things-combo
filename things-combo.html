@@ -111,8 +111,7 @@ Example:
         items: {
           type: Array,
           notify: true,
-          value: [],
-          observer: '_itemsChanged'
+          value: []
         },
 
         /**
@@ -256,6 +255,10 @@ Example:
         }
       },
 
+      observers: [
+        '_itemsChanged(items, exceptEmpty)'
+      ],
+
       /**
        * readonly가 아닌 경우 style 지정을 위해 기본 클래스를 설정한다.
        **********
@@ -273,7 +276,7 @@ Example:
        * exceptEmpty false 일때 items의 첫번째 값에 빈 오브젝트를 삽입한다.
        ***********
        */
-      _itemsChanged: function() {
+      _itemsChanged: function(items, exceptEmpty) {
         if(!this.exceptEmpty) {
           this.items.unshift({});
         }
