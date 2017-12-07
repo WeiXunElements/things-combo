@@ -75,7 +75,7 @@ Example:
             on-tap="spreadContents"
             on-input="spreadContents"
             tabindex$="[[tabIndex]]"
-            readonly>
+            readonly$="[[!editable]]">
 
     <input is="iron-input"
             class$="{{_computeClass(readonly)}}"
@@ -141,6 +141,16 @@ Example:
         labelPath: {
           type: String,
           value: 'description'
+        },
+
+        /**
+         * input 필드에 직접 타이핑 할 수 있는지 여부를 결정하는 property
+         * ********
+         * @type: Boolean
+         */
+        editable: {
+          type: Boolean,
+          value: false
         },
 
         /**
@@ -358,8 +368,8 @@ Example:
        * 리스트에서 아래로 펼치기
        ***********
        */
-      spreadContents: function() {
-        if(this.readonly) {
+      spreadContents: function(event) {
+        if(this.readonly || ((event.target.is == 'iron-input' && this.editable) && event.type == 'tap' || event.type == 'input')) {
           return;
         }
 
