@@ -374,8 +374,8 @@ Example:
        */
       spreadContents: function(event) {
         if(this.readonly || event.target.is == 'iron-input' && this.editable && event.type == 'tap') {
-        } else if (this.editable && event.type == 'input') {
           return;
+        } else if (this.editable && event.type == 'input') {
           this.value = event.target.value;
           return;
         };
