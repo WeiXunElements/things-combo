@@ -404,12 +404,14 @@ Example:
        */
       _valueChanged: function(e) {
         this.$['dropdownList'].toggle();
-
-        if(e.model.item) {
-          this.value = e.model.item[this.valuePath];
-          this.display = e.model.item[this.labelPath];
-        } else {
-          this.clearValue();
+        var evt = this.fire('things-combo-selected', e.model.item, { cancelable: true });
+        if (!evt.defaultPrevented) {
+          if(e.model.item) {
+            this.value = e.model.item[this.valuePath];
+            this.display = e.model.item[this.labelPath];
+          } else {
+            this.clearValue();
+          }
         }
       },
 
