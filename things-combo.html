@@ -24,42 +24,50 @@ Example:
 -->
 
 <dom-module id="things-combo">
-  <style>
-    .dropdown-content {
-      background-color: white;
-      white-space: nowrap;
-    }
-    label{
-      @apply(--things-label);
-    }
-    input{
-      @apply(--things-input);
-    }
-    .input-size{
-      width:calc(65% - 37px);
-    }
-    iron-icon{
-      @apply(--things-picker-button);
-      background:url(/images/icon-resource-select.png) 50% -46px no-repeat var(--paper-blue-grey-300);
-    }
-    iron-dropdown{
-      margin:30px 0 0 9%;
-      border:2px solid rgba(0,0,0,.2);
-      text-align:center;
-    }
-    iron-dropdown:before{
-      @apply(--things-dropdown-arrow);
-    }
-    paper-item{
-      @apply(--things-dropdown-item);
-    }
-    paper-item span{
-      opacity:.6;
-      font-size:12px;
-    }
-  </style>
+    <style>
+        .dropdown-content {
+            background-color: white;
+            white-space: nowrap;
+        }
+        
+        label {
+            @apply(--things-label);
+        }
+        
+        input {
+            @apply(--things-input);
+        }
+        
+        .input-size {
+            width: calc(65% - 37px);
+        }
+        
+        iron-icon {
+            @apply(--things-picker-button);
+            background: url(/images/icon-resource-select.png) 50% -46px no-repeat var(--paper-blue-grey-300);
+        }
+        
+        iron-dropdown {
+            margin: 30px 0 0 9%;
+            border: 2px solid rgba(0, 0, 0, .2);
+            text-align: center;
+        }
+        
+        iron-dropdown:before {
+            @apply(--things-dropdown-arrow);
+        }
+        
+        paper-item {
+            @apply(--things-dropdown-item);
+        }
+        
+        paper-item span {
+            opacity: .6;
+            font-size: 12px;
+        }
+    </style>
 
-  <template>
+    <template>
     
     <things-i18n-msg
         auto
@@ -95,343 +103,361 @@ Example:
         <template is="dom-repeat" items="[[items]]">
           <paper-item on-tap="_valueChanged" value="[[item.name]]">[[item.description]]&nbsp;<span>[[item.name]]</span></paper-item>
         </template>
-      </div>
+    </div>
     </iron-dropdown>
-  </template>
+    </template>
 
-  <script type="text/javascript">
-    Polymer({
-      is: "things-combo",
+    <script type="text/javascript">
+        Polymer({
+            is: "things-combo",
 
-      properties: {
-        /**
-         * Drop down list에 포함될 items array
-         * ********
-         * @type: Array
-         */
-        items: {
-          type: Array,
-          notify: true,
-          value: []
-        },
+            properties: {
+                /**
+                 * Drop down list에 포함될 items array
+                 * ********
+                 * @type: Array
+                 */
+                items: {
+                    type: Array,
+                    notify: true,
+                    value: []
+                },
 
-        /**
-         * String type으로 items를 전달 받기 위한 property
-         * ********
-         * @type: String
-         */
-        itemsStr: {
-          type: String,
-          observer: 'itemsStrChanged'
-        },
+                /**
+                 * String type으로 items를 전달 받기 위한 property
+                 * ********
+                 * @type: String
+                 */
+                itemsStr: {
+                    type: String,
+                    observer: 'itemsStrChanged'
+                },
 
-        /**
-         * input name
-         * ********
-         * @type: String
-         */
-        name: {
-          type: String
-        },
+                /**
+                 * input name
+                 * ********
+                 * @type: String
+                 */
+                name: {
+                    type: String
+                },
 
-        /**
-         * item에서 display 값을 추출하기 위한 labelPath
-         * ********
-         * @type: String
-         */
-        labelPath: {
-          type: String,
-          value: 'description'
-        },
+                /**
+                 * item에서 display 값을 추출하기 위한 labelPath
+                 * ********
+                 * @type: String
+                 */
+                labelPath: {
+                    type: String,
+                    value: 'description'
+                },
 
-        /**
-         * input 필드에 직접 타이핑 할 수 있는지 여부를 결정하는 property
-         * ********
-         * @type: Boolean
-         */
-        editable: {
-          type: Boolean,
-          value: false
-        },
+                /**
+                 * input 필드에 직접 타이핑 할 수 있는지 여부를 결정하는 property
+                 * ********
+                 * @type: Boolean
+                 */
+                editable: {
+                    type: Boolean,
+                    value: false
+                },
 
-        /**
-         * item에서 value 값을 추출하기 위한 valuePath
-         * ********
-         * @type: String
-         */
-        valuePath: {
-          type: String,
-          value: 'name'
-        },
+                /**
+                 * item에서 value 값을 추출하기 위한 valuePath
+                 * ********
+                 * @type: String
+                 */
+                valuePath: {
+                    type: String,
+                    value: 'name'
+                },
 
-        /**
-         * 화면에 출력 할 값
-         * ********
-         * @type: String
-         */
-        display: {
-          type: String,
-          notify: true,
-          readonly: true,
-          computed:'_findDisplay(items,value)'
-        },
+                /**
+                 * 화면에 출력 할 값
+                 * ********
+                 * @type: String
+                 */
+                display: {
+                    type: String,
+                    notify: true,
+                    readonly: true,
+                    computed: '_findDisplay(items,value)'
+                },
 
-        /**
-         * 호출에 사용 될 실제 값
-         * ********
-         * @type: String
-         */
-        value: {
-          type: String,
-          notify: true,
-          observer: '_valueChangeHandler'
-        },
+                /**
+                 * 호출에 사용 될 실제 값
+                 * ********
+                 * @type: String
+                 */
+                value: {
+                    type: String,
+                    notify: true,
+                    observer: '_valueChangeHandler'
+                },
 
-        /**
-         * input field 옆단에 표시되는 label
-         * ********
-         * @type: String
-         */
-        label: {
-          type: String,
-        },
+                /**
+                 * input field 옆단에 표시되는 label
+                 * ********
+                 * @type: String
+                 */
+                label: {
+                    type: String,
+                },
 
-        /**
-         * emptyObj를 포함 시킬지 여부를 결정하는 attribute
-         * ********
-         * @type: Boolean
-         */
-        exceptEmpty: {
-          type: Boolean,
-          value: false
-        },
+                /**
+                 * emptyObj를 포함 시킬지 여부를 결정하는 attribute
+                 * ********
+                 * @type: Boolean
+                 */
+                exceptEmpty: {
+                    type: Boolean,
+                    value: false
+                },
 
-        /**
-         * tabindex
-         * ********
-         * @type: String
-         */
-        tabIndex: {
-          type: String
-        },
+                /**
+                 * tabindex
+                 * ********
+                 * @type: String
+                 */
+                tabIndex: {
+                    type: String
+                },
 
-        /**
-         * input field에 반드시 값이 포함되는지 여부 
-         * ********
-         * @type: Boolean
-         */
-        required: {
-          type: Boolean,
-          value: false
-        },
+                /**
+                 * input field에 반드시 값이 포함되는지 여부 
+                 * ********
+                 * @type: Boolean
+                 */
+                required: {
+                    type: Boolean,
+                    value: false
+                },
 
-        /**
-         * readonly or not
-         * ********
-         * @type: Boolean
-         */
-        readonly: {
-          type: Boolean,
-          value: false
-        },
+                /**
+                 * readonly or not
+                 * ********
+                 * @type: Boolean
+                 */
+                readonly: {
+                    type: Boolean,
+                    value: false
+                },
 
-        /**
-         * 자동 validation check 활성화 여부
-         * ********
-         * @type: Boolean
-         */
-        autoValidate: {
-          type: Boolean,
-          value: false
-        },
+                /**
+                 * 자동 validation check 활성화 여부
+                 * ********
+                 * @type: Boolean
+                 */
+                autoValidate: {
+                    type: Boolean,
+                    value: false
+                },
 
-        /**
-         * validate 함수를 통해 return 되는 값으로 초기화 하는 변수
-         * ********
-         * @type: Boolean
-         */
-        isValid: {
-          type: Boolean,
-          notify: true,
-          value: true
-        },
+                /**
+                 * validate 함수를 통해 return 되는 값으로 초기화 하는 변수
+                 * ********
+                 * @type: Boolean
+                 */
+                isValid: {
+                    type: Boolean,
+                    notify: true,
+                    value: true
+                },
 
-        /**
-         * validation check를 통해 isValid의 값이 false일때 화면에 나타나는 errorMessage
-         * ********
-         * @type: String
-         */
-        errorMessage: {
-          type: String
-        }
-      },
+                /**
+                 * validation check를 통해 isValid의 값이 false일때 화면에 나타나는 errorMessage
+                 * ********
+                 * @type: String
+                 */
+                errorMessage: {
+                    type: String
+                }
+            },
 
-      observers: [
-        '_itemsChanged(items, exceptEmpty)'
-      ],
+            observers: [
+                '_itemsChanged(items, exceptEmpty)'
+            ],
 
-      /**
-       * readonly가 아닌 경우 style 지정을 위해 기본 클래스를 설정한다.
-       **********
-       * @param {Boolean} readonly
-       */
-      _computeClass: function(readonly) {
-        if(readonly) {
-          return '';
-        }
+            /**
+             * readonly가 아닌 경우 style 지정을 위해 기본 클래스를 설정한다.
+             **********
+             * @param {Boolean} readonly
+             */
+            _computeClass: function(readonly) {
+                if (readonly) {
+                    return '';
+                }
 
-        return 'input-size';
-      },
+                return 'input-size';
+            },
 
-      /**
-       * exceptEmpty false 일때 items의 첫번째 값에 빈 오브젝트를 삽입한다.
-       ***********
-       */
-      _itemsChanged: function(items, exceptEmpty) {
-        if(!this.exceptEmpty) {
-          this.items.unshift({});
-        }
-      },
+            /**
+             * exceptEmpty false 일때 items의 첫번째 값에 빈 오브젝트를 삽입한다.
+             ***********
+             */
+            _itemsChanged: function(items, exceptEmpty) {
+                if (!this.exceptEmpty) {
+                    this.items.unshift({});
+                }
+            },
 
-      /**
-       * String type으로 전달 받은 itemsStr을 json 형식으로 parsing한 후 items에 초기화
-       ***********
-       * @param {String} itemsStr #### : 전달하는 itemsStr
-       */
-      itemsStrChanged: function(itemsStr) {
-        if(itemsStr && itemsStr.length >= 2) {
-          try {
-            this.items = JSON.parse(itemsStr);
-          } catch(e) {
-            console.log(e);
-          }
-        }
-      },
+            /**
+             * String type으로 전달 받은 itemsStr을 json 형식으로 parsing한 후 items에 초기화
+             ***********
+             * @param {String} itemsStr #### : 전달하는 itemsStr
+             */
+            itemsStrChanged: function(itemsStr) {
+                if (itemsStr && itemsStr.length >= 2) {
+                    try {
+                        this.items = JSON.parse(itemsStr);
+                    } catch (e) {
+                        console.log(e);
+                    }
+                }
+            },
 
-      /**
-       * value가 변경될 시 발생하는 event handler
-       ***********
-       * @param {Object} e
-       */
-      _valueChangeHandler: function(e) {
-        if(this.valuePath) {
-          if(this.value) {
-            this.display = this._findDisplay(this.items, this.value);
-            var item = this._findItem(this.items, this.value);
-            this.fire('things-combo-value-changed', { value : this.value, item : item });
-          } else {
-            this.fire('things-combo-value-changed', { value : '', item : {} });
-          }
-        }
+            /**
+             * value가 변경될 시 발생하는 event handler
+             ***********
+             * @param {Object} e
+             */
+            _valueChangeHandler: function(e) {
+                if (this.valuePath) {
+                    if (this.value) {
+                        this.display = this._findDisplay(this.items, this.value);
+                        var item = this._findItem(this.items, this.value);
+                        this.fire('things-combo-value-changed', {
+                            value: this.value,
+                            item: item
+                        });
+                    } else {
+                        this.fire('things-combo-value-changed', {
+                            value: '',
+                            item: {}
+                        });
+                    }
+                }
 
-        this.validate();
-      },
+                this.validate();
+            },
 
-      /**
-       * value가 변경 되었을 시 value를 통해 display 값을 얻고 detail form field에 표시하기 위한 display 초기화
-       ***********
-       * @param {Array} items #### : item들이 있는 배열
-       * @param {String} value #### : value값
-       */
-      _findDisplay: function(items, value) {
-        var display = '';
-        var valuePath = this.valuePath;
+            /**
+             * value가 변경 되었을 시 value를 통해 display 값을 얻고 detail form field에 표시하기 위한 display 초기화
+             ***********
+             * @param {Array} items #### : item들이 있는 배열
+             * @param {String} value #### : value값
+             */
+            _findDisplay: function(items, value) {
+                var display = '';
+                var valuePath = this.valuePath;
 
-        var founds = items.filter(function(item) {
-          return item[valuePath] == value;
+                var founds = items.filter(function(item) {
+                    return item[valuePath] == value;
+                });
+
+                if (founds && founds.length > 0) {
+                    var found = founds[0];
+                    display = found[this.labelPath];
+                    if (!display && found.name) display = found.name;
+                }
+
+                // value가 items에 존재하지 않는다면 display를 value로 설정
+                return display ? display : value;
+            },
+
+            /**
+             * value가 변경 되었을 시 value를 통해 display 값을 얻고 detail form field에 표시하기 위한 display 초기화
+             ***********
+             * @param {Array} items #### : item들이 있는 배열
+             * @param {String} value #### : value값
+             */
+            _findItem: function(items, value) {
+                var valuePath = this.valuePath;
+                return items.find(function(item) {
+                    return item[valuePath] == value;
+                });
+            },
+
+            /**
+             * Spreading Drop down list
+             * 1. readonly일 경우 return
+             * 2. editable이 true이고 event.target.is가 iron-input이고 event.type이 tap 일 경우 return (편집 가능한 input box를 탭 했을때)
+             * 3. editable이 event.type이 input일 때 event.target.value를 this.value에 초기화 후 return (편집 가능한 input box에 값을 입력 했을때)
+             * 
+             * 그외의 경우 dropdown list를 open
+             ***********
+             */
+            spreadContents: function(event) {
+                if (this.readonly || event.target.is == 'iron-input' && this.editable && event.type == 'tap') {
+                    return;
+                } else if (this.editable && event.type == 'input') {
+                    this.value = event.target.value;
+                    return;
+                };
+
+                var evt = this.fire('things-combo-before-open', {
+                    items: this.items
+                }, {
+                    cancelable: true
+                });
+                if (!evt.defaultPrevented) {
+                    this.$['dropdownList'].open();
+                    this.fire('things-combo-opened', {
+                        open: this.$['dropdownList'].opened
+                    });
+                }
+            },
+
+            /**
+             * Spreading Drop down list
+             * 리스트에서 아래로 펼치기
+             ***********
+             */
+            closeContents: function() {
+                this.$['dropdownList'].close();
+                this.fire('things-combo-opened', {
+                    open: this.$['dropdownList'].opened
+                });
+            },
+
+            /**
+             * input field의 값이 변경 될 시 drop down list를 닫고 value(검색에 필요한 실제 값)와 display(UI에 나타나는 값)를 초기화
+             * emptyObj를 선택했을 때에는 clearValue를 호출
+             ***********
+             * @param {Object} e
+             */
+            _valueChanged: function(e) {
+                this.$['dropdownList'].toggle();
+                var evt = this.fire('things-combo-selected', e.model.item, {
+                    cancelable: true
+                });
+                if (!evt.defaultPrevented) {
+                    if (e.model.item) {
+                        this.value = e.model.item[this.valuePath];
+                        this.display = e.model.item[this.labelPath];
+                    } else {
+                        this.clearValue();
+                    }
+                }
+            },
+
+            /**
+             * 값을 리셋
+             ***********
+             * @param {Object} e
+             */
+            clearValue: function(e) {
+                this.display = '';
+                this.value = '';
+            },
+
+            /**
+             * 수동 validation check function
+             ***********
+             */
+            validate: function() {
+                this.isValid = this.$.input.validate();
+            }
         });
-
-        if(founds && founds.length > 0) {
-          var found = founds[0];
-          display = found[this.labelPath];
-          if(!display && found.name) display = found.name;
-        }
-
-        // value가 items에 존재하지 않는다면 display를 value로 설정
-        return display ? display : value;
-      },
-
-      /**
-       * value가 변경 되었을 시 value를 통해 display 값을 얻고 detail form field에 표시하기 위한 display 초기화
-       ***********
-       * @param {Array} items #### : item들이 있는 배열
-       * @param {String} value #### : value값
-       */
-      _findItem: function(items, value) {
-        var valuePath = this.valuePath;
-        return items.find(function(item) {
-          return item[valuePath] == value;
-        });
-      },
-
-      /**
-       * Spreading Drop down list
-       * 1. readonly일 경우 return
-       * 2. editable이 true이고 event.target.is가 iron-input이고 event.type이 tap 일 경우 return (편집 가능한 input box를 탭 했을때)
-       * 3. editable이 event.type이 input일 때 event.target.value를 this.value에 초기화 후 return (편집 가능한 input box에 값을 입력 했을때)
-       * 
-       * 그외의 경우 dropdown list를 open
-       ***********
-       */
-      spreadContents: function(event) {
-        if(this.readonly || event.target.is == 'iron-input' && this.editable && event.type == 'tap') {
-          return;
-        } else if (this.editable && event.type == 'input') {
-          this.value = event.target.value;
-          return;
-        };
-
-
-        this.$['dropdownList'].open();
-        this.fire('things-combo-opened', {open: this.$['dropdownList'].opened});
-      },
-
-      /**
-       * Spreading Drop down list
-       * 리스트에서 아래로 펼치기
-       ***********
-       */
-      closeContents: function() {
-        this.$['dropdownList'].close();
-        this.fire('things-combo-opened', {open: this.$['dropdownList'].opened});
-      },
-
-      /**
-       * input field의 값이 변경 될 시 drop down list를 닫고 value(검색에 필요한 실제 값)와 display(UI에 나타나는 값)를 초기화
-       * emptyObj를 선택했을 때에는 clearValue를 호출
-       ***********
-       * @param {Object} e
-       */
-      _valueChanged: function(e) {
-        this.$['dropdownList'].toggle();
-        var evt = this.fire('things-combo-selected', e.model.item, { cancelable: true });
-        if (!evt.defaultPrevented) {
-          if(e.model.item) {
-            this.value = e.model.item[this.valuePath];
-            this.display = e.model.item[this.labelPath];
-          } else {
-            this.clearValue();
-          }
-        }
-      },
-
-      /**
-       * 값을 리셋
-       ***********
-       * @param {Object} e
-       */
-      clearValue: function(e) {
-        this.display = '';
-        this.value = '';
-      },
-
-      /**
-       * 수동 validation check function
-       ***********
-       */
-      validate: function() {
-        this.isValid = this.$.input.validate();
-      }
-    });
-  </script>
+    </script>
 </dom-module>
