@@ -84,7 +84,8 @@ Example:
             on-tap="spreadContents"
             on-input="spreadContents"
             tabindex$="[[tabIndex]]"
-            readonly$="[[!editable]]">
+            readonly$="[[!editable]]"
+            disabled$="[[disabled]]">
 
     <input is="iron-input"
             class$="{{_computeClass(readonly)}}"
@@ -96,7 +97,7 @@ Example:
             auto-validate$="[[autoValidate]]"
             required$="[[required]]">
 
-    <iron-icon hidden$="[[readonly]]" on-tap="spreadContents"></iron-icon>
+    <iron-icon hidden$="[[readonly]]" disabled$="[[disabled]]" on-tap="spreadContents"></iron-icon>
 
     <iron-dropdown id="dropdownList" horizontal-align="right" vertical-align="auto" always-on-top>
       <div class="dropdown-content">
@@ -271,6 +272,17 @@ Example:
                  */
                 errorMessage: {
                     type: String
+                },
+
+                /**
+                 * disable or not
+                 * ********
+                 * @type: Boolean
+                 */
+                disabled: {
+                    type: Boolean,
+                    notify: true,
+                    value: false
                 }
             },
 
@@ -388,7 +400,7 @@ Example:
              ***********
              */
             spreadContents: function(event) {
-                if (this.readonly || event.target.is == 'iron-input' && this.editable && event.type == 'tap') {
+                if (this.disabled || this.readonly || event.target.is == 'iron-input' && this.editable && event.type == 'tap') {
                     return;
                 } else if (this.editable && event.type == 'input') {
                     this.value = event.target.value;
