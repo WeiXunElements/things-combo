@@ -1,8 +1,8 @@
 {
     "name": "things-combo",
-    "version": "v2.2.8",
+    "version": "v2.2.9",
     "authors": [
-        "Hatio Lab. <heartyoh@hatiolab.com>"
+        "Shenzhen Weixun"
     ],
     "description": "things-combo.items로 받은 데이터들을 콤보박스로 출력하고 선택한 값을 필드에 표시하는 컴퍼넌트",
     "keywords": [
@@ -11,8 +11,6 @@
         "seed"
     ],
     "main": "things-combo.html",
-    "license": "http://license.hatiolab.com/EULA",
-    "homepage": "http://elements.hatiolab.com/",
     "ignore": [
         "/.*",
         "/test/"

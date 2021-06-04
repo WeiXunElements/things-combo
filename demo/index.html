@@ -1,44 +1,44 @@
 <!--
 @license
-Copyright © HatioLab Inc. All rights reserved.
+Copyright © 2015-2021 Shenzhen Weixun All rights reserved.
 -->
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes" />
     <title>things-combo Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
-    <link rel="import" href="../../paper-input/paper-input.html">
-    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-    <link rel="import" href="../../things-i18n-msg/things-i18n-msg.html">
-    <link rel="import" href="../../things-theme/things-xmes-theme.html">
-    <link rel="import" href="../things-combo.html">
+    <link rel="import" href="../../paper-input/paper-input.html" />
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html" />
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html" />
+    <link rel="import" href="../../things-i18n-msg/things-i18n-msg.html" />
+    <link rel="import" href="../../things-theme/things-xmes-theme.html" />
+    <link rel="import" href="../things-combo.html" />
   </head>
   <body unresolved>
-      <h3>Things Combo</h3>
-      <h4>Value에서 값을 넣으면, Display과Label에서 적용되고, Label에서도 값을 체크할 수 있다.</h4>
-      <demo-snippet class="centered-demo">
-        <template>
-          <style include="things-xmes-theme"></style>
-          <template is="dom-bind">
-            <paper-input value="{{value}}" label="Value"></paper-input>
-            <paper-input value="[[display]]" label="Display"></paper-input>
-            <things-i18n-msg></things-i18n-msg>
-            <things-combo
-              id="combo"
-              label="Label"
-              items-str='[{"name": "item1","description": "First Item"},
+    <h3>Things Combo</h3>
+    <h4>Value에서 값을 넣으면, Display과Label에서 적용되고, Label에서도 값을 체크할 수 있다.</h4>
+    <demo-snippet class="centered-demo">
+      <template>
+        <style include="things-xmes-theme"></style>
+        <template is="dom-bind">
+          <paper-input value="{{value}}" label="Value"></paper-input>
+          <paper-input value="[[display]]" label="Display"></paper-input>
+          <things-i18n-msg></things-i18n-msg>
+          <things-combo
+            id="combo"
+            label="Label"
+            items-str='[{"name": "item1","description": "First Item"},
                           {"name": "item2","description": "Second Item"}]'
-              label-path="description"
-              value-path="name"
-              value = "{{value}}"
-              display="{{display}}">
-            </things-combo>
-          </template>
+            label-path="description"
+            value-path="name"
+            value="{{value}}"
+            display="{{display}}"
+          >
+          </things-combo>
         </template>
-      </demo-snippet>
-
+      </template>
+    </demo-snippet>
   </body>
 </html>
